@@ -21,4 +21,17 @@ router.delete('/', async (req, res) => {
   res.json([]);
 });
 
+// ✅ GET item by itemId
+router.get('/custom/:itemId', async (req, res) => {
+  try {
+    const item = await Item.findOne({ itemId: req.params.itemId });
+    if (!item) {
+      return res.status(404).json({ message: 'Item not found' });
+    }
+    res.json(item);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+});
+
 module.exports = router;
